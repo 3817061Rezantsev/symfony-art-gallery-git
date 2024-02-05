@@ -1,0 +1,215 @@
+###Покупка новой картины
+POST http://localhost:{{port}}/picture/register
+Content-Type: application/json
+
+{
+  "name": "Picture",
+  "painter_id": 2,
+  "year": "2021"
+}
+
+> {%
+client.test("Тестирование покупки новой картины", function()
+{
+  client.assert(response.status=== 201, "Проверяю код ответа. Ожидаю код 201. Фактическое значение: " + response.status);
+  client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+  client.assert(response.body.hasOwnProperty('id'), 'нет айди картины');
+});
+%}
+
+
+
+
+
+
+###Тест просмотра картины по ее id регулярка
+GET http://localhost:{{port}}/picture/2
+
+> {%
+client.test("Тест просмотра картины по ее id регулярка", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body["id"] === 2,"ID картины некорректно");
+    client.assert(response.body["name"] === "Черный квадрат","Название картины некорректно");
+    client.assert(response.body["painter"]["fullName"] === "Казимир Малевич","Имя автора некорректно");
+    client.assert(response.body["year"] === "1915","Год некрректен");
+});
+ %}
+
+###Тест просмотра неправильной картины по ее id регулярка
+GET http://localhost:{{port}}/picture/0
+
+> {%
+ client.test("Тест просмотра неправильной картины по ее id регулярка", function() {
+     client.assert(response.status === 404, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "entity not found","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+
+###Тест просмотра всех картин в галерее за определенный промежуток лет
+GET http://localhost:{{port}}/picture?start=1900&end=2000
+
+> {%
+client.test("Тест просмотра всех картин в галерее за определенный промежуток лет", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["year"] >= "1900","Год некрректен");
+    client.assert(response.body[0]["year"] <= "2000","Год некрректен");
+});
+ %}
+
+###Тесты просмотра картин по всем полям
+
+###Тест просмотра картины по ее id
+GET http://localhost:{{port}}/picture?id=2
+
+> {%
+client.test("Тест просмотра картины по ее id", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 2,"ID картины некорректно");
+    client.assert(response.body[0]["name"] === "Черный квадрат","Название картины некорректно");
+    client.assert(response.body[0]["painter"]["fullName"] === "Казимир Малевич","Имя автора некорректно");
+    client.assert(response.body[0]["year"] === "1915","Год некрректен");
+});
+ %}
+
+###Тест просмотра картины по ее имени
+GET http://localhost:{{port}}/picture?name=Черный квадрат
+
+> {%
+client.test("Тест просмотра картины по ее имени", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 2,"ID картины некорректно");
+    client.assert(response.body[0]["name"] === "Черный квадрат","Название картины некорректно");
+    client.assert(response.body[0]["painter"]["fullName"] === "Казимир Малевич","Имя автора некорректно");
+    client.assert(response.body[0]["year"] === "1915","Год некрректен");
+});
+ %}
+
+###Тест просмотра картины по ее автору
+GET http://localhost:{{port}}/picture?painter_fullName=Казимир Малевич
+
+> {%
+client.test("Тест просмотра картины по ее автору", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 2,"ID картины некорректно");
+    client.assert(response.body[0]["name"] === "Черный квадрат","Название картины некорректно");
+    client.assert(response.body[0]["painter"]["fullName"] === "Казимир Малевич","Имя автора некорректно");
+    client.assert(response.body[0]["year"] === "1915","Год некрректен");
+});
+ %}
+
+###Тест просмотра картины по году написания
+GET http://localhost:{{port}}/picture?year=1915
+
+> {%
+client.test("Тест просмотра картины по году написания", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 2,"ID картины некорректно");
+    client.assert(response.body[0]["name"] === "Черный квадрат","Название картины некорректно");
+    client.assert(response.body[0]["painter"]["fullName"] === "Казимир Малевич","Имя автора некорректно");
+    client.assert(response.body[0]["year"] === "1915","Год некрректен");
+});
+ %}
+
+### Неправильные параметры
+###Тесты просмотра картин по всем полям
+
+###Тест просмотра картины по ее id
+GET http://localhost:{{port}}/picture?id[]=2
+
+> {%
+ client.test("Валидация картины по id", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тест просмотра картины по ее имени
+GET http://localhost:{{port}}/picture?name[]=Черный квадрат
+
+> {%
+ client.test("Валидация картины по имени", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect name","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тест просмотра картины по ее автору
+GET http://localhost:{{port}}/picture?painter_fullName[]=Казимир Малевич
+
+> {%
+ client.test("Валидация картины по автору", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect painter_fullName","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тест просмотра картины по году написания
+GET http://localhost:{{port}}/picture?year[]=1915
+
+> {%
+ client.test("Валидация картины по году написания", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect year","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+### Тестирование неподдерживаемого приложением URL
+GET http://localhost:{{port}}/hhh?param=ru
+
+> {%
+client.test("Тестирование неподдерживаемого запроса",function ()
+{
+    client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="unsupported request","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование запроса без path
+GET http://localhost:{{port}}/?param=ru
+
+> {%
+client.test("Тестирование неподдерживаемого запроса",function ()
+{
+    client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="unsupported request","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+

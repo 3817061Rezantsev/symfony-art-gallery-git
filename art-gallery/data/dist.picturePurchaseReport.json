@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "visitor_id": 1,
+    "picture_id": 1,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 15000,
+      "currency": "RUB"
+    }
+  },
+  {
+    "id": 2,
+    "visitor_id": 1,
+    "picture_id": 7,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 30000,
+      "currency": "RUB"
+    }
+  },
+  {
+    "id": 3,
+    "visitor_id": 1,
+    "picture_id": 3,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 45000,
+      "currency": "EUR"
+    }
+  },
+  {
+    "id": 4,
+    "visitor_id": 3,
+    "picture_id": 2,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 12000,
+      "currency": "RUB"
+    }
+  },
+  {
+    "id": 5,
+    "visitor_id": 1,
+    "picture_id": 4,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 100000,
+      "currency": "RUB"
+    }
+  },
+  {
+    "id": 6,
+    "visitor_id": 3,
+    "picture_id": 5,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 300000,
+      "currency": "RUB"
+    }
+  },
+  {
+    "id": 7,
+    "visitor_id": 1,
+    "picture_id": 4,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 90000,
+      "currency": "USD"
+    }
+  },
+  {
+    "id": 8,
+    "visitor_id": 3,
+    "picture_id": 8,
+    "purchasePrice" : {
+      "dateOfPurchase": "2020-07-09 21:40",
+      "cost": 25000,
+      "currency": "RUB"
+    }
+  }
+]

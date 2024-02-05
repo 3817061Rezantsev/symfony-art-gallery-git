@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "gallery_id": "1",
+    "dateOfVisit": "2021.11.15",
+    "currency": "EUR",
+    "cost": 500
+  },
+  {
+    "id": 2,
+    "gallery_id": "2",
+    "dateOfVisit": "2021.11.22",
+    "currency": "RUB",
+    "cost": 3000
+  },
+  {
+    "id": 3,
+    "gallery_id": "2",
+    "dateOfVisit": "2021.09.01",
+    "currency": "USD",
+    "cost": 1400
+  },
+  {
+    "id": 4,
+    "gallery_id": "1",
+    "dateOfVisit": "2021.01.18",
+    "currency": "RUB",
+    "cost": 2000
+  },
+  {
+    "id": 5,
+    "gallery_id": "3",
+    "dateOfVisit": "2020.12.03",
+    "currency": "RUB",
+    "cost": 2500
+  }
+]

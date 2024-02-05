@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:s_rtr="https://effective-group.ru/schema/dic/sergo_infracturucture_router"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <s_rtr:config>
+        <s_rtr:universalRouter>
+            <s_rtr:controllerNamespace>Sergo\ArtGallery\Controller</s_rtr:controllerNamespace>
+        </s_rtr:universalRouter>
+        <s_rtr:defaultRouter>
+            <s_rtr:route pattern="/picture/administration">Sergo\ArtGallery\Controller\PictureAdministrationController</s_rtr:route>
+            <s_rtr:route pattern="/picture-purchase-report/administration">Sergo\ArtGallery\Controller\PictureReportAdministrationController</s_rtr:route>
+            <s_rtr:route pattern="/ticket-purchase-report/administration">Sergo\ArtGallery\Controller\TicketReportAdministrationController</s_rtr:route>
+            <s_rtr:route pattern="/login">Sergo\ArtGallery\Controller\LoginController</s_rtr:route>
+            <s_rtr:route pattern="/show">Sergo\ArtGallery\SymfonyFormExample\SubscriberController</s_rtr:route>
+        </s_rtr:defaultRouter>
+
+        <s_rtr:regExpRouter>
+            <s_rtr:route pattern="/\d/">Sergo\ArtGallery\Controller\PictureAdministrationController</s_rtr:route>
+        </s_rtr:regExpRouter>
+    </s_rtr:config>
+</container>

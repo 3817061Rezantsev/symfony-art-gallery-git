@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "fullName": "Ледянева Анастасия Дмитриевна",
+    "dateOfBirth": "2001.02.19",
+    "telephoneNumber": "7033244689"
+  },
+  {
+    "id": 2,
+    "fullName": "Воболотный Никита Алексеевич",
+    "dateOfBirth": "2009.10.20",
+    "telephoneNumber": "7760526066"
+  },
+  {
+    "id": 3,
+    "fullName": "Иголов Алексей Семёнович",
+    "dateOfBirth": "2000.05.11",
+    "telephoneNumber": "71052777970"
+  },
+  {
+    "id": 4,
+    "fullName": "Катузова Ксения Олеговна",
+    "dateOfBirth": "2008.07.21",
+    "telephoneNumber": "79011034343"
+  }
+]

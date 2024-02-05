@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "fullName": "Покатышев Андрей Семёнович",
+    "dateOfBirth": "1999.11.01",
+    "telephoneNumber": "73430872941"
+  },
+  {
+    "id": 2,
+    "fullName": "Жаров Юрий Антонович",
+    "dateOfBirth": "1980.03.15",
+    "telephoneNumber": "7349792815"
+  },
+  {
+    "id": 3,
+    "fullName": "Левьентев Олег Игоревич",
+    "dateOfBirth": "1971.04.09",
+    "telephoneNumber": "73964951295"
+  }
+]

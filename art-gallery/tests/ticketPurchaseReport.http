@@ -1,0 +1,448 @@
+###Тесты просмотра актов о покупке билета по всем полям правильные
+
+###Покупка нового билета
+POST http://localhost:{{port}}/ticketPurchaseReport/register
+Content-Type: application/json
+
+{
+  "visitor_id": 10,
+  "ticket_id": 2,
+  "dateOfPurchase": "2020-08-01 11:05"
+}
+
+> {%
+client.test("Тестирование покупки нового билета", function()
+{
+  client.assert(response.status=== 201, "Проверяю код ответа. Ожидаю код 201. Фактическое значение: " + response.status);
+  client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+  client.assert(response.body.hasOwnProperty('id'), 'нет айди акта о покупке билета');
+});
+%}
+
+
+
+
+
+
+
+###Тесты просмотра актов о покупке билета по id
+GET http://localhost:{{port}}/ticketPurchaseReport/1
+
+> {%
+ client.test("###Тесты просмотра актов о покупке билета по id регулярка", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["id"] === 1,"incorrect id");
+     client.assert(response.body["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+     client.assert(response.body["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по id регулярка
+GET http://localhost:{{port}}/ticketPurchaseReport/0
+
+> {%
+ client.test("###Тесты просмотра актов о покупке билета по id регулярка", function() {
+     client.assert(response.status === 404, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "entity not found","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+
+###Тесты просмотра актов о покупке билета по id
+GET http://localhost:{{port}}/ticketPurchaseReport?id=1
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по id", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["id"] === 1,"incorrect id");
+     client.assert(response.body[0]["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+
+ });
+ %}
+
+
+
+###Тесты просмотра актов о покупке билета по id посетителя
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_id=10
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по id посетителя", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по имени посетителя
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_fullName=Иванов Иван Александрович
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по имени посетителя", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по дате рождения посетителя
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_dateOfBirth=2001.11.15
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по дате рождения посетителя", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по номеру телефона посетителя
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_telephoneNumber=79011047564
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по номеру телефона посетителя", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["visitor"]["id"] === 10,"incorrect id");
+     client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович","incorrect fullName");
+     client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15","incorrect dateOfBirth");
+     client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564","incorrect telephoneNumber");
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по id билета
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_id=2
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по id билета", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по id галлереи
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_id=2
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по id галлереи", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+ });
+ %}
+###Тесты просмотра актов о покупке билета по имени галлереи
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_name=Музей Метрополитен
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по имени галлереи", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по галлерее
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_address=Нью-Йорк, Нью-Йорк, США
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по адресу галлереи", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id3");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect ticket_gallery_name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по дате посещения
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_dateOfVisit=2021.11.22
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по дате посещения", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по по стоимости
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_cost=3000
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по стоимости", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+ });
+ %}
+
+
+###Тесты просмотра актов о покупке билета по дате
+GET http://localhost:{{port}}/ticketPurchaseReport?dateOfPurchase=2020-10-03 14:15
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по дате", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["ticket"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["id"] === 2,"incorrect id");
+     client.assert(response.body[0]["ticket"]["gallery"]["name"] === "Музей Метрополитен","incorrect name");
+     client.assert(response.body[0]["ticket"]["gallery"]["address"] === "Нью-Йорк, Нью-Йорк, США","incorrect address");
+     client.assert(response.body[0]["ticket"]["dateOfVisit"] === "2021.11.22","incorrect dateOfVisit");
+
+ });
+ %}
+
+
+
+###Тесты просмотра актов о покупке билета по валюте
+GET http://localhost:{{port}}/ticketPurchaseReport?currency=RUB
+
+> {%
+ client.test("Тесты просмотра актов о покупке билета по валюте", function() {
+     client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body[0]["currency"] === "RUB","incorrect dateOfVisit");
+
+ });
+ %}
+
+
+
+###Тесты просмотра актов о покупке билета по всем полям
+
+###Тесты просмотра актов о покупке билета по id
+GET http://localhost:{{port}}/ticketPurchaseReport?id[]=5
+
+> {%
+ client.test("Тестирования понятных данных16", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 500, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+
+
+###Тесты просмотра актов о покупке билета по "визетеру"
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_id[]=5
+
+> {%
+ client.test("Тестирования понятных данных17", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по "визетеру"
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_fullName[]="5"
+
+> {%
+ client.test("Тестирования понятных данных18", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_fullName","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по "визетеру"
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_dateOfBirth[]="5"
+
+> {%
+ client.test("Тестирования понятных данных19", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_dateOfBirth","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по "визетеру"
+GET http://localhost:{{port}}/ticketPurchaseReport?visitor_telephoneNumber[]="5"
+
+> {%
+ client.test("Тестирования понятных данных20", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_telephoneNumber","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по билету
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_id[]=5
+
+> {%
+ client.test("Тестирования понятных данных21", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect ticket_id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по галлерее
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_id[]="5"
+
+> {%
+ client.test("Тестирования понятных данных22", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect ticket_gallery_id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по галлерее
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_name[]="5"
+
+> {%
+ client.test("Тестирования понятных данных23", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect ticket_gallery_name","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по галлерее
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_gallery_address[]="5"
+
+> {%
+ client.test("Тестирования понятных данных24", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect ticket_gallery_address","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по билету
+GET http://localhost:{{port}}/ticketPurchaseReport?ticket_dateOfVisit[]="5"
+
+> {%
+ client.test("Тестирования понятных данных25", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect ticket_dateOfVisit","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по бибелету
+GET http://localhost:{{port}}/ticketPurchaseReport?cost[]=5
+
+> {%
+ client.test("Тестирования понятных данных26", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect cost","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тесты просмотра актов о покупке билета по дате
+GET http://localhost:{{port}}/ticketPurchaseReport?dateOfPurchase[]="5"
+
+> {%
+ client.test("Тестирования понятных данных27", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect dateOfPurchase","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+
+###Тесты просмотра актов о покупке билета по валюте
+GET http://localhost:{{port}}/ticketPurchaseReport?currency[]="5"
+
+> {%
+ client.test("Тестирования понятных данных28", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect currency","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+

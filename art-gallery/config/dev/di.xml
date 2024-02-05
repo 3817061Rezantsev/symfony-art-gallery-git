@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <imports>
+        <import resource="app.config.xml"/>
+    </imports>
+    <services>
+        <defaults autowire="true" public="false"/>
+        <prototype namespace="Sergo\ArtGallery\" resource="./../../src"/>
+        <prototype namespace="Sergo\ArtGallery\Infrastructure\"
+                   resource="./../../vendor/sergo/home-framework/src"
+                   exclude="./../../vendor/sergo/home-framework/src/{Router,Http}"
+        />
+
+        <instanceof id="Sergo\ArtGallery\Infrastructure\Controller\ControllerInterface" public="true" />
+        <instanceof id="Sergo\ArtGallery\Infrastructure\Console\CommandInterface" public="true" />
+
+        <service id="Sergo\ArtGallery\Infrastructure\Console\Output\OutputInterface"
+                 class="Sergo\ArtGallery\Infrastructure\Console\Output\EchoOutput"
+                 public="true"
+        />
+        <service id="Sergo\ArtGallery\Config\AppConfig" public="true">
+            <factory class="Sergo\ArtGallery\Config\AppConfig" method="createFromArray"/>
+            <argument key="$config">%app.configs%</argument>
+        </service>
+        <service id="Sergo\ArtGallery\Infrastructure\Auth\HttpAuthProvider" public="false">
+            <argument key="$loginUri" type="service">
+                <service class="Nyholm\Psr7\Uri">
+                    <argument key="$uri" type="expression">
+                        service('Sergo\\ArtGallery\\Config\\AppConfig').getLoginUri()
+                    </argument>
+                </service>
+            </argument>
+        </service>
+
+        <service id="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\UriFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+
+        <service id="Psr\Http\Message\ResponseFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\StreamFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+
+
+        <service id="Sergo\ArtGallery\Infrastructure\Auth\AdminDataStorageInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\Admin</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Infrastructure\DataLoader\DataLoaderInterface"
+                 class="Sergo\ArtGallery\Infrastructure\DataLoader\JsonDataLoader"/>
+
+        <service id="Sergo\ArtGallery\Infrastructure\Session\SessionInterface" public="false">
+            <factory class="Sergo\ArtGallery\Infrastructure\Session\SessionNative" method="create"/>
+        </service>
+        <service id="Sergo\ArtGallery\Infrastructure\View\RenderInterface"
+                 class="Sergo\ArtGallery\Infrastructure\View\DefaultRender"
+                 public="true"/>
+
+
+        <service id="Sergo\ArtGallery\Entity\PictureRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\Picture</argument>
+        </service>
+
+
+        <service id="Sergo\ArtGallery\Entity\PicturePurchaseReportRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\PicturePurchaseReport</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Entity\VisitorRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\Visitor</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Entity\TicketPurchaseReportRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\TicketPurchaseReport</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Entity\TicketRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\Ticket</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Entity\PainterRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">Sergo\ArtGallery\Entity\Painter</argument>
+        </service>
+
+        <service id="Sergo\ArtGallery\Entity\CurrencyFactoryInterface"
+        class="Sergo\ArtGallery\ValueObject\CurrencyDoctrineFactory">
+
+
+        </service>
+
+        <service id="Psr\Log\NullLogger"/>
+        <service id="Psr\Log\LoggerInterface" alias="Psr\Log\NullLogger" public="true"/>
+        <service id="Psr\Container\ContainerInterface" alias="Sergo\ArtGallery\Infrastructure\DI\Container"/>
+
+    </services>
+</container>

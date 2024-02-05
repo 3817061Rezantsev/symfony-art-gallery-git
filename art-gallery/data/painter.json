@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "fullName": "Ледянева Анастасия Дмитриевна",
+        "dateOfBirth": "2001.02.19",
+        "telephoneNumber": "7033244689"
+    },
+    {
+        "id": 2,
+        "fullName": "Воболотный Никита Алексеевич",
+        "dateOfBirth": "2009.10.20",
+        "telephoneNumber": "7760526066"
+    },
+    {
+        "id": 3,
+        "fullName": "Иголов Алексей Семёнович",
+        "dateOfBirth": "2000.05.11",
+        "telephoneNumber": "71052777970"
+    },
+    {
+        "id": 4,
+        "fullName": "Катузова Ксения Олеговна",
+        "dateOfBirth": "2008.07.21",
+        "telephoneNumber": "79011034343"
+    },
+    {
+        "id": 5,
+        "fullName": "Винсент Ван Гог",
+        "dateOfBirth": "1853.03.30",
+        "telephoneNumber": null
+    },
+    {
+        "id": 6,
+        "fullName": "Казимир Малевич",
+        "dateOfBirth": "1879.02.23",
+        "telephoneNumber": null
+    },
+    {
+        "id": 7,
+        "fullName": "Валентин Александрович Серов",
+        "dateOfBirth": "1865.01.19",
+        "telephoneNumber": null
+    },
+    {
+        "id": 8,
+        "fullName": "Ян Вермеер",
+        "dateOfBirth": "1632.10.01",
+        "telephoneNumber": null
+    },
+    {
+        "id": 9,
+        "fullName": "Альбрехт Дюрер",
+        "dateOfBirth": "1471.05.21",
+        "telephoneNumber": null
+    },
+    {
+        "id": 10,
+        "fullName": "Наталья Тюнева",
+        "dateOfBirth": null,
+        "telephoneNumber": "89853187535"
+    },
+    {
+        "id": 11,
+        "fullName": "Лина Сокульская",
+        "dateOfBirth": null,
+        "telephoneNumber": null
+    },
+    {
+        "id": 12,
+        "fullName": "Сальвадор Дали",
+        "dateOfBirth": "1904.05.11",
+        "telephoneNumber": null
+    }
+]

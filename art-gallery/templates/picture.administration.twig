@@ -1,0 +1,72 @@
+
+<style>
+    form label {
+        width: 100pt;
+        display: block;
+    }
+</style>
+
+<h1>Picture Page</h1>
+<div>
+    <h2>Добавить картину</h2>
+    <form method="POST">
+        <input type="hidden" value="picture" name="type"/>
+
+        <div>
+            <label for="picture_name"> Название</label>
+            <input type="text" name="name" id="picture_name" placeholder="Введите название" value="{{ pictureData.name }}"/>
+            {% if formValidationResults.name is defined %}
+                <ul>
+                    <li>{{ formValidationResults.name }}</li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="picture_year"> Год написания</label>
+            <input type="text" name="year" id="picture_year" placeholder="Введите дату" value="{{ pictureData.year }}"/>
+            {% if formValidationResults.year is defined %}
+                <ul>
+                    <li>{{ formValidationResults.year }}</li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="picture_painter_id"> Художник</label>
+            <select name="painter_id" id="picture_painter_id">
+                {%  for painter in painters %}
+                    <option {% if pictureData.painter_id == painter.getId %}selected{% endif %} value="{{ painter.getId }}">
+                        {{ painter.getFullName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Добавить"/>
+        </div>
+
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Художник</th>
+        <th>Год написания</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for picture in pictures %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ picture.getName }}</td>
+            <td>{{ picture.getPainterDto.getFullName }}</td>
+            <td>{{ picture.getYear }}</td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

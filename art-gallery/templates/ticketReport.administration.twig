@@ -1,0 +1,89 @@
+<?php
+use Sergo\ArtGallery;
+
+/**
+ * @var ArtGallery\Service\SearchTicketsService\TicketDto[] $tickets
+ * @var ArtGallery\Service\SearchVisitorsService\VisitorDto[] $visitors
+ * @var ArtGallery\Service\SearchTicketReportsService\TicketReportDto[] $ticketReports
+ * @var array $formValidationResults
+ * @var array $ticketReportData
+ */
+
+?>
+
+<style>
+    form label {
+        width: 100pt;
+        display: block;
+    }
+</style>
+
+<h1>Ticket Purchase Report Page</h1>
+<div>
+    <h2>Добавить акт о покупке билета</h2>
+    <form method="POST">
+        <input type="hidden" value="ticket_report" name="type"/>
+
+        <div>
+            <label for="ticket_report_visitor_id"> Покупатель</label>
+            <select name="ticket_id" id="ticket_report_ticket_id">
+                {%  for visitor in visitors %}
+                    <option {% if ticketReportData.visitor_id == visitor.getId %}selected{% endif %} value="{{ visitor.getId }}">
+                        {{ visitor.getFullName }}
+                    </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="ticket_report_ticket_id"> Билет в галерею</label>
+            <select name="ticket_id" id="ticket_report_ticket_id">
+                {%  for ticket in tickets %}
+                    <option {% if ticketReportData.ticket_id == ticket.getId %}selected{% endif %} value="{{ ticket.getId }}">
+                        {{ ticket.getGallery.getName }} {{ ticket.getCost }} {{ ticket.getCurrency }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="ticket_report_dateOfPurchase"> Дата покупки</label>
+            <input type="text" name="dateOfPurchase" id="ticket_report_dateOfPurchase" placeholder="Введите дату" value="{{ ticketReportData.dateOfPurchase }}"/>
+            {% if formValidationResults.dateOfPurchase is defined %}
+                <ul>
+                    <li>{{ formValidationResults.dateOfPurchase }}</li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="submit" value="Добавить"/>
+        </div>
+
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Покупатель</th>
+        <th>Галлерея</th>
+        <th>Дата покупки</th>
+        <th>Цена</th>
+        <th>Валюта</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ticketReport in ticketReports %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ ticketReport.getVisitor.getId }}</td>
+            <td>{{ ticketReport.getTicket.getId }}</td>
+            <td>{{ ticketReport.getDateOfPurchase }}</td>
+            <td>{{ ticketReport.getCost }}</td>
+            <td>{{ ticketReport.getCurrency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

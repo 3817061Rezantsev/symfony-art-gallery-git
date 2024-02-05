@@ -1,0 +1,467 @@
+###Тесты просмотра актов о покупке картин по всем полям
+###Покупка нового билета
+POST http://localhost:{{port}}/picturePurchaseReport/register
+Content-Type: application/json
+
+{
+  "visitor_id": 10,
+  "picture_id": 2,
+  "dateOfPurchase": "2020-08-01 11:05",
+  "cost": 30000,
+  "currency": "RUB"
+}
+
+> {%
+client.test("Тестирование покупки нового билета", function()
+{
+  client.assert(response.status=== 201, "Проверяю код ответа. Ожидаю код 201. Фактическое значение: " + response.status);
+  client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+  client.assert(response.body.hasOwnProperty('id'), 'нет айди акта о покупке билета');
+});
+%}
+
+
+
+
+###Тест просмотра актов о покупке картин по id регулярка
+GET http://localhost:{{port}}/picturePurchaseReport/5
+
+> {%
+client.test("Тест просмотра актов о покупке картин по id", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body["id"] === 5,"ID некорректен");
+    client.assert(response.body["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body["picture"]["year"] === "1665","Год выхода картины неверен");
+    client.assert(response.body["cost"] === 100000,"Цена некорректа");
+    client.assert(response.body["currency"] === "RUB","валюта некорректа");
+
+});
+%}
+
+###Валидация просмотра актов о покупке картин по id
+GET http://localhost:{{port}}/picturePurchaseReport/0
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по id", function() {
+     client.assert(response.status === 404, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "entity not found","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Тест просмотра актов о покупке картин по id
+GET http://localhost:{{port}}/picturePurchaseReport?id=5
+
+> {%
+client.test("Тест просмотра актов о покупке картин по id", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 5,"ID некорректен");
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body[0]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1665","Год выхода картины неверен");
+    client.assert(response.body[0]["cost"] === 100000,"Цена некорректа");
+    client.assert(response.body[0]["currency"] === "RUB","валюта некорректа");
+
+});
+%}
+
+###Тесты просмотра актов о покупке картин по посетителю
+###Тест просмотра актов о покупке картин по id посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_id=10
+
+> {%
+client.test("Тест просмотра актов о покупке картин по id посетителя", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+
+});
+%}
+
+###Тест просмотра актов о покупке картин по имени посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_fullName=Иванов Иван Александрович
+
+> {%
+client.test("Тест просмотра актов о покупке картин по имени посетителя", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+
+});
+%}
+###Тест просмотра актов о покупке картин по дате рождения посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_dateOfBirth=2001.11.15
+
+> {%
+client.test("Тест просмотра актов о покупке картин по дате рождения посетителя", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+
+});
+%}
+
+###Тест просмотра актов о покупке картин по телефонному номеру посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_telephoneNumber=79011047564
+
+> {%
+client.test("Тест просмотра актов о покупке картин по телефонному номеру посетителя", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+
+});
+%}
+
+
+###Тесты просмотра актов о покупке картин по картине
+###Тест просматра акта о покупке картин
+GET http://localhost:{{port}}/picturePurchaseReport?picture_id=4
+
+> {%
+client.test("Тест просмотра актов о покупке картин по id картины", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 5,"ID некорректен");
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body[0]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1665","Год выхода картины неверен");
+    client.assert(response.body[0]["cost"] === 100000,"Цена некорректа");
+    client.assert(response.body[0]["currency"] === "RUB","валюта некорректа");
+
+});
+%}
+
+###Тест просмотра актов о покупке картин по имени картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_name=Девушка с жемчужной сережкой
+
+> {%
+client.test("Тест просмотра актов о покупке картин по имени картины", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[1]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[1]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[1]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[1]["picture"]["year"] === "1665","Год выхода картины неверен");
+
+});
+%}
+
+###Тест просмотра актов о покупке картин по автору картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_painter_fullName=Ян Вермеер
+
+> {%
+client.test("Тест просмотра актов о покупке картин по автору картины", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 5,"ID некорректен");
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body[0]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1665","Год выхода картины неверен");
+    client.assert(response.body[0]["cost"] === 100000,"Цена некорректа");
+    client.assert(response.body[0]["currency"] === "RUB","валюта некорректа");
+
+});
+%}
+
+###Тест просмотра актов о покупке картин по году написания картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_year=1665
+
+> {%
+client.test("Тест просмотра актов о покупке картин по году написания картины", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1665","Год выхода картины неверен");
+});
+%}
+
+###Тесты просмотра актов о покупке картин по цене
+GET http://localhost:{{port}}/picturePurchaseReport?cost=100000
+
+> {%
+client.test("Тест просмотра актов о покупке картин по цене", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 5,"ID некорректен");
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body[0]["picture"]["id"] === 4,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девушка с жемчужной сережкой",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Ян Вермеер","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1665","Год выхода картины неверен");
+    client.assert(response.body[0]["cost"] === 100000,"Цена некорректа");
+    client.assert(response.body[0]["currency"] === "RUB","валюта некорректа");
+
+});
+%}
+
+###Тесты просмотра актов о покупке картин по валюте
+GET http://localhost:{{port}}/picturePurchaseReport?currency=EUR
+
+> {%
+client.test("Тест просмотра актов о покупке картин по валюте", function() {
+    client.assert(response.status === 200, "Проверяю код ответа, ожидалось 200, " +
+    "фактическое значение "+response.status);
+    client.assert(response.contentType.mimeType === "application/json",
+    "Ожидаю application/type, " + "фактически "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"] === 3,"ID некорректен");
+    client.assert(response.body[0]["visitor"]["id"] === 10,"Номер пользователя некорректен");
+    client.assert(response.body[0]["visitor"]["fullName"] === "Иванов Иван Александрович",
+    "Имя пользователи некорректно");
+    client.assert(response.body[0]["visitor"]["dateOfBirth"] === "2001.11.15",
+    "Дата рождения некорректа");
+    client.assert(response.body[0]["visitor"]["telephoneNumber"] === "79011047564",
+    "Телефон пользователи некорректен");
+    client.assert(response.body[0]["picture"]["id"] === 3,"Номер картины некорректен");
+    client.assert(response.body[0]["picture"]["name"] === "Девочка с персиками",
+    "Название кртины некорректен");
+    client.assert(response.body[0]["picture"]["painter"]["fullName"] === "Валентин Александрович Серов","Автор некорректен");
+    client.assert(response.body[0]["picture"]["year"] === "1887","Год выхода картины неверен");
+});
+%}
+
+###Валидация просмотра актов о покупке картин по всем полям
+
+###Валидация просмотра актов о покупке картин по id
+GET http://localhost:{{port}}/picturePurchaseReport?id[]=5
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по id", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 500, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по "визитеру"
+###Валидация просмотра актов о покупке картин по id посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_id[]=1
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по id посетителя", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 500, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по имени посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_fullName[]=Иванов Иван Александрович
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по имени посетителя", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_fullName","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по дате роджения посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_dateOfBirth[]=2001.11.15
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по дате роджения посетителя", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_dateOfBirth","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по номеру телефона посетителя
+GET http://localhost:{{port}}/picturePurchaseReport?visitor_telephoneNumber[]=79011047564
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по номеру телефона посетителя", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect visitor_telephoneNumber","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+
+###Валидация просмотра актов о покупке картин по картине
+###Валидация просмотра актов о покупке картин по id картины
+GET http://localhost:{{port}}/picturePurchaseReport?id[]=Девушка с жемчужной сережкой
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по id картины", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect id","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по имени картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_name[]=Девушка с жемчужной сережкой
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по имени картины", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect picture_name","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по автору картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_painter_fullName[]=Ян Вермеер
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по автору картины", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect painter_fullName","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по году написания картины
+GET http://localhost:{{port}}/picturePurchaseReport?picture_year[]=1665
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по году написания картины", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect picture_year","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по цене
+GET http://localhost:{{port}}/picturePurchaseReport?cost[]=100000
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по цене", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect cost","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}
+
+###Валидация просмотра актов о покупке картин по валюте
+GET http://localhost:{{port}}/picturePurchaseReport?currency[]=RUB
+
+> {%
+ client.test("Валидация просмотра актов о покупке картин по валюте", function() {
+     client.assert(response.status === 500, "Проверяю код ответа, ожидалось 404, фактическое значение "+response.status);
+     client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, фактически "+response.contentType.mimeType);
+     client.assert(response.body["message"] === "incorrect currency","Некорректное сообщение");
+     client.assert(response.body["status"] === "fail","Некорректный статус");
+
+ });
+ %}

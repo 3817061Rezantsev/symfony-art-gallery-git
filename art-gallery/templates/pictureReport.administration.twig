@@ -1,0 +1,111 @@
+<?php
+use Sergo\ArtGallery;
+
+/**
+ * @var ArtGallery\Service\SearchPicturesService\PictureDto[] $pictures
+ * @var ArtGallery\Service\SearchVisitorsService\VisitorDto[] $visitors
+ * @var ArtGallery\Service\SearchPictureReportsService\PictureReportDto[] $pictureReports
+ * @var array $currencyCods
+ * @var array $formValidationResults
+ * @var array $pictureReportData
+ */
+
+?>
+
+<style>
+    form label {
+        width: 100pt;
+        display: block;
+    }
+</style>
+
+<h1>Picture Purchase Report Page</h1>
+<div>
+    <h2>Добавить акт о покупке картины</h2>
+    <form method="POST">
+        <input type="hidden" value="picture_report" name="type"/>
+
+        <div>
+            <label for="picture_report_visitor_id"> Покупатель</label>
+            <select name="visitor_id" id="picture_report_visitor_id">
+                {%  for visitor in visitors %}
+                    <option {% if pictureReportData.visitor_id == visitor.getId %}selected{% endif %} value="{{ visitor.getId }}">
+                        {{ visitor.getFullName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="picture_report_picture_id"> Картина</label>
+            <select name="picture_id" id="picture_report_picture_id">
+                {%  for picture in pictures %}
+                    <option {% if pictureReportData.visitor_id == picture.getId %}selected{% endif %} value="{{ picture.getId }}">
+                        {{ picture.getName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="picture_report_dateOfPurchase"> Дата покупки</label>
+            <input type="text" name="dateOfPurchase" id="picture_report_dateOfPurchase" placeholder="Введите дату" value="{{ pictureReportData.dateOfPurchase }}"/>
+            {% if formValidationResults.dateOfPurchase is defined %}
+                <ul>
+                    <li>{{ formValidationResults.dateOfPurchase }}</li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="picture_report_cost"> Цена</label>
+            <input type="text" name="cost" id="picture_report_cost" placeholder="Введите цену" value="{{ pictureReportData.cost }}"/>
+            {% if formValidationResults.cost is defined %}
+                <ul>
+                    <li>{{ formValidationResults.cost }}</li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="picture_report_currency"> Валюта</label>
+            <select name="currency" id="picture_report_currency">
+                {%  for currencyCod in currencyCods %}
+                    <option {% if pictureReportData.currency == currencyCod %}selected{% endif %} value="{{ currencyCod }}">
+                        {{ currencyCod }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <input type="submit" value="Добавить"/>
+        </div>
+
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Покупатель</th>
+        <th>Картина</th>
+        <th>Дата покупки</th>
+        <th>Цена</th>
+        <th>Валюта</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for pictureReport in pictureReports %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ pictureReport.getVisitor.getId }}</td>
+            <td>{{ pictureReport.getPicture.getId }}</td>
+            <td>{{ pictureReport.getDateOfPurchase }}</td>
+            <td>{{ pictureReport.getCost }}</td>
+            <td>{{ pictureReport.getCurrency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

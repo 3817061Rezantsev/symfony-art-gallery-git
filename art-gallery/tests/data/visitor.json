@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "fullName": "Иванов Иван Александрович",
+    "dateOfBirth": "2001.11.15",
+    "telephoneNumber": "79011047564"
+  },
+  {
+    "id": 2,
+    "fullName": "Курмызова Татьяна Игоревна",
+    "dateOfBirth": "2005.03.03",
+    "telephoneNumber": "710788325243"
+  },
+  {
+    "id": 3,
+    "fullName": "Сидорова Юлия Аркадиевна",
+    "dateOfBirth": "1984.07.12",
+    "telephoneNumber": "7122412429"
+  },
+  {
+    "id": 4,
+    "fullName": "Иванов Иван Александрович",
+    "dateOfBirth": "2001.11.15",
+    "telephoneNumber": "79011047564"
+  },
+  {
+    "id": 5,
+    "fullName": "Курмызова Татьяна Игоревна",
+    "dateOfBirth": "2005.03.03",
+    "telephoneNumber": "710788325243"
+
+  },
+  {
+    "id": 6,
+    "fullName": "Сидорова Юлия Аркадиевна",
+    "dateOfBirth": "1984.07.12",
+    "telephoneNumber": "7122412429"
+  },
+  {
+    "id": 7,
+    "fullName": "Иванов Иван Александрович",
+    "dateOfBirth": "2001.11.15",
+    "telephoneNumber": "79011047564"
+  },
+  {
+    "id": 8,
+    "fullName": "Курмызова Татьяна Игоревна",
+    "dateOfBirth": "2005.03.03",
+    "telephoneNumber": "710788325243"
+  },
+  {
+    "id": 9,
+    "fullName": "Сидорова Юлия Аркадиевна",
+    "dateOfBirth": "1984.07.12",
+    "telephoneNumber": "7122412429"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "gallery_id": "1",
+    "dateOfVisit": "2021.11.15"
+  },
+  {
+    "id": 2,
+    "gallery_id": "2",
+    "dateOfVisit": "2021.11.22"
+  },
+  {
+    "id": 3,
+    "gallery_id": "2",
+    "dateOfVisit": "2021.09.01"
+  },
+  {
+    "id": 4,
+    "gallery_id": "1",
+    "dateOfVisit": "2021.01.18"
+  },
+  {
+    "id": 5,
+    "gallery_id": "3",
+    "dateOfVisit": "2020.12.03"
+  }
+]
