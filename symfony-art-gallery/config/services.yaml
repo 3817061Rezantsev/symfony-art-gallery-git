@@ -1,0 +1,66 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Sergo\ArtGallery\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    Sergo\ArtGallery\Entity\AdminRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\Admin
+    Sergo\ArtGallery\Entity\PictureRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\Picture
+    Sergo\ArtGallery\Entity\PicturePurchaseReportRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\PicturePurchaseReport
+    Sergo\ArtGallery\Entity\VisitorRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\Visitor
+    Sergo\ArtGallery\Entity\TicketPurchaseReportRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\TicketPurchaseReport
+    Sergo\ArtGallery\Entity\TicketRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\Ticket
+    Sergo\ArtGallery\Entity\PainterRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\Painter
+    Sergo\ArtGallery\Entity\ExchangeInfoRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: Sergo\ArtGallery\Entity\ExchangeInfo
+    Sergo\ArtGallery\Entity\CurrencyFactoryInterface:
+        alias: Sergo\ArtGallery\ValueObject\CurrencyDoctrineFactory
+    Sergo\ArtGallery\Entity\TagFactoryInterface:
+        alias: Sergo\ArtGallery\ValueObject\TagDoctrineFactory
+#    Monolog\Handler\TelegramBotHandler:
+#        arguments:
+#            $apiKey: '%env(TELEGRAM_BOT_KEY)%'
+#            $channel: '%env(TELEGRAM_CHANNEL)%'
+#            $level: 'error'
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+

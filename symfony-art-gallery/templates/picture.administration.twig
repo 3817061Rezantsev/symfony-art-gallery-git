@@ -1,0 +1,40 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+    <h1>Picture Page</h1>
+    <div class="col-3">
+        <h2>Добавить картину</h2>
+        {{ form(form_picture) }}
+    </div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Художник</th>
+        <th>Год написания</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for picture in pictures %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ picture.getName }}</td>
+            <td>{{ picture.getPainterDto.getFullName }}</td>
+            <td>{{ picture.getYear }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

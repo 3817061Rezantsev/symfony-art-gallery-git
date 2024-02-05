@@ -1,0 +1,23 @@
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Художник</th>
+        <th>Год написания</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for picture in pictures %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ picture.getName }}</td>
+            <td>{{ picture.getPainterDto.getFullName }}</td>
+            <td>{{ picture.getYear }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+Количество нарисованных картин = {{ count }}

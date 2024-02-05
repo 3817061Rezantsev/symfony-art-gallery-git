@@ -1,0 +1,45 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<h1>Picture Purchase Report Page</h1>
+<h2>Добавить акт о покупке картины</h2>
+<div class="col-3">
+
+    {{ form(form_picture_report) }}
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Покупатель</th>
+        <th>Картина</th>
+        <th>Дата покупки</th>
+        <th>Цена</th>
+        <th>Валюта</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for pictureReport in pictureReports %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ pictureReport.getVisitor.getId }}</td>
+            <td>{{ pictureReport.getPicture.getId }}</td>
+            <td>{{ pictureReport.getDateOfPurchase }}</td>
+            <td>{{ pictureReport.getCost }}</td>
+            <td>{{ pictureReport.getCurrency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% block javascripts %}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>
+

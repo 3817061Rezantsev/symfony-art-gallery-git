@@ -1,0 +1,43 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<h1>Ticket Purchase Report Page</h1>
+<h2>Добавить акт о покупке билета</h2>
+<div class="col-3">
+    {{ form(form_ticket_report) }}
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Покупатель</th>
+        <th>Галлерея</th>
+        <th>Дата покупки</th>
+        <th>Цена</th>
+        <th>Валюта</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ticketReport in ticketReports %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ ticketReport.getVisitor.getId }}</td>
+            <td>{{ ticketReport.getTicket.getId }}</td>
+            <td>{{ ticketReport.getDateOfPurchase }}</td>
+            <td>{{ ticketReport.getCost }}</td>
+            <td>{{ ticketReport.getCurrency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

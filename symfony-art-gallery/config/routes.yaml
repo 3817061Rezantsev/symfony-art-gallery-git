@@ -1,0 +1,98 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+register_picture:
+  path: /picture/register
+  controller: Sergo\ArtGallery\Controller\CreateRegisterPictureController::__invoke
+  methods: POST
+
+register_picture_purchase_price_report:
+  path: /picturePurchaseReport/register
+  controller: Sergo\ArtGallery\Controller\CreateRegisterPicturePurchaseReportController::__invoke
+  methods: POST
+
+register_ticket_purchase_price_report:
+  path: /ticketPurchaseReport/register
+  controller: Sergo\ArtGallery\Controller\CreateRegisterTicketPurchaseReportController::__invoke
+  methods: POST
+
+picture_id:
+  path: /picture/{id}
+  controller: Sergo\ArtGallery\Controller\GetPictureController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+
+picture:
+  path: /picture
+  controller: Sergo\ArtGallery\Controller\GetPictureCollectionController::__invoke
+  methods: GET
+
+picture_purchase_price_report_id:
+  path: /picturePurchaseReport/{id}
+  controller: Sergo\ArtGallery\Controller\GetPicturePurchaseReportController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+
+picture_purchase_price_report:
+  path: /picturePurchaseReport
+  controller: Sergo\ArtGallery\Controller\GetPicturePurchaseReportCollectionController::__invoke
+  methods: GET
+
+ticket_purchase_price_report_id:
+  path: /ticketPurchaseReport/{id}
+  controller: Sergo\ArtGallery\Controller\GetTicketPurchaseReportController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+
+ticket_purchase_price_report:
+  path: /ticketPurchaseReport
+  controller: Sergo\ArtGallery\Controller\GetTicketPurchaseReportCollectionController::__invoke
+  methods: GET
+
+login:
+  path: /login
+  controller: Sergo\ArtGallery\Controller\LoginController::__invoke
+  methods: [GET, POST]
+
+picture_administration:
+  path: /picture/administration
+  controller: Sergo\ArtGallery\Controller\PictureAdministrationController::__invoke
+  methods: [ GET, POST ]
+
+picture_purchase_price_administration:
+  path: /picture-purchase-report/administration
+  controller: Sergo\ArtGallery\Controller\PictureReportAdministrationController::__invoke
+  methods: [ GET, POST ]
+
+ticket_purchase_price_report_administration:
+  path: /ticket-purchase-report/administration
+  controller: Sergo\ArtGallery\Controller\TicketReportAdministrationController::__invoke
+  methods: [ GET, POST ]
+
+picture_exchange:
+  path: /picture/exchange
+  controller: Sergo\ArtGallery\Controller\ExchangePictureController::__invoke
+  methods: [ GET, POST ]
+
+picture_add_tags:
+  path: /picture/{id}/addTags
+  controller: Sergo\ArtGallery\Controller\UpdatePictureTagsController::__invoke
+  methods: PUT
+  requirements:
+    id: '\d+'
+
+nft_art_registr:
+  path: /nftArt/register
+  controller: Sergo\ArtGallery\Controller\CreateRegisterNFTArtController::__invoke
+  methods: POST
+
+painter_pictures:
+  path: /painter/{id}
+  controller: Sergo\ArtGallery\Controller\PainterPictureController::__invoke
+  methods: GET
